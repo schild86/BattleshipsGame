@@ -2,6 +2,7 @@ package BattleshipsTerminalView;
 
 import BattleshipsModel.Board.Board;
 import BattleshipsModel.Position.Position2D;
+import Validation.InGameException;
 
 public class OutputHandler {
     private static final OutputBoard outputBoard = new OutputBoard();
@@ -84,7 +85,7 @@ public class OutputHandler {
         System.out.println("Unfortunately the feature you have tried to access is not implemented yet");
     }
     //this method can be improved to handle different errors differently
-    public static void printException(Exception e){
+    public static void printInGameException(InGameException e){
         System.out.println(e.getMessage());
     }
 

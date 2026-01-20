@@ -1,6 +1,7 @@
 package BattleshipsModel.Board;
 
 import BattleshipsModel.Position.Position2D;
+import Validation.InGameException;
 import Validation.InvalidShipPlacement;
 
 import static Validation.PositionValidator.checkValidPosition;
@@ -11,20 +12,20 @@ public class ShipPart {
     private Position2D position;
     private final Battleship ship;
 
-    public ShipPart(Position2D position, Battleship ship, Board board) throws Exception {
+    public ShipPart(Position2D position, Battleship ship, Board board) throws InGameException {
         this.ship = ship;
         this.hit = false;
         checkIfValidShipPart(position,board);
     }
 
-    public ShipPart(int x,int y, Battleship ship, Board board) throws Exception {
+    public ShipPart(int x,int y, Battleship ship, Board board) throws InGameException {
         this.ship = ship;
         this.hit = false;
         Position2D pos = new Position2D(x,y);
         checkIfValidShipPart(pos,board);
     }
 
-    private void checkIfValidShipPart(Position2D pos, Board board) throws Exception {
+    private void checkIfValidShipPart(Position2D pos, Board board) throws InGameException {
         if(checkValidPosition(pos)&& !board.checkIfPosHasShipPart(pos)){
             this.position = pos;
             board.setShipPart(position, this);

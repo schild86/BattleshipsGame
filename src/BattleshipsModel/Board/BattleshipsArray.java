@@ -1,6 +1,7 @@
 package BattleshipsModel.Board;
 
 import BattleshipsModel.Position.Position2D;
+import Validation.InGameException;
 
 public class BattleshipsArray {
     private Battleship[] battleships;
@@ -32,7 +33,7 @@ public class BattleshipsArray {
         return lengths[nextShip];
     }
 
-    protected void addShip(Position2D position, boolean rotation, Board board) throws Exception {
+    protected void addShip(Position2D position, boolean rotation, Board board) throws InGameException {
         //creating a battleship can throw an exception
         battleships[nextShip] = new Battleship(getNextShipLength(), position, rotation, board);
         nextShip+=1;

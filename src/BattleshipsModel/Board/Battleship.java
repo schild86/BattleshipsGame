@@ -1,6 +1,7 @@
 package BattleshipsModel.Board;
 
 import BattleshipsModel.Position.Position2D;
+import Validation.InGameException;
 
 import static BattleshipsTerminalView.OutputHandler.printShipDefeated;
 
@@ -13,7 +14,7 @@ public class Battleship {
     private final boolean rotation; //0/false is horizontal, 1/true is vertical
     private boolean defeated; //true once all positions within the ship have been hit
 
-    protected Battleship(int length, Position2D startPosition, boolean rotation, Board board) throws Exception {
+    protected Battleship(int length, Position2D startPosition, boolean rotation, Board board) throws InGameException {
         this.startPosition = startPosition;
         this.rotation = rotation;
         this.length = length;

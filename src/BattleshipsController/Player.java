@@ -2,19 +2,28 @@ package BattleshipsController;
 
 import BattleshipsModel.Board.Board;
 import BattleshipsModel.Position.Position2D;
+import Validation.InGameException;
 import Validation.PositionAlreadyGuessed;
 
 import static BattleshipsTerminalView.OutputHandler.*;
-
+//each "player" object has their own board and knows which boolean val corresponds to them
 public class Player {
-    private Board playerBoard;
+    private final Board playerBoard;
     private final boolean player;
 
     public Player(boolean player,int size){
+        //instantiate the players board based on size
         playerBoard = new Board(size);
         this.player = player;
     }
 
+    protected Board getPlayerBoard(){return playerBoard;}
+
+    protected boolean getPlayerBool() {
+        return player;
+    }
+
+    //add ships to their own board
     public void addShips(){
         printPlayerGoPlaceShip(player);
         outputShipBoard();
@@ -23,11 +32,15 @@ public class Player {
                 Position2D position = getPositionForShip();
                 boolean rotation = getRotationForShip();
                 playerBoard.addShip(position, rotation);
-            } catch (Exception e){printException(e);}
+            } catch (Exception e){
+                printInGameException(e);}
             outputShipBoard();
         }
     }
 
+    //very similar to the method addShips
+    // except no user input is asked for
+    //instead a very basic positioning of ships
     public void addDefaultShips(){
         int i = 1;
         while(playerBoard.checkIfCanAddShip()){
@@ -36,12 +49,13 @@ public class Player {
                 boolean rotation = false;
                 playerBoard.addShip(position, rotation);
                 i+=1;
-            } catch (Exception e){printException(e);}
+            } catch (Exception e){
+                printInGameException(e);}
         }
         outputShipBoard();
     }
 
-    public void checkGuess(Position2D position) throws Exception {
+    public void checkGuess(Position2D position) throws InGameException {
         if(playerBoard.checkAlreadyGuessed(position)) {
             throw new PositionAlreadyGuessed();
         }else if(playerBoard.checkIfHits(position)){
@@ -58,23 +72,23 @@ public class Player {
                 Position2D pos = getPositionForGuess();
                 otherPlayer.checkGuess(pos);
                 acceptableGuess=true;
-            } catch (Exception e) {
-                printException(e);
+            } catch (InGameException e) {
+                printInGameException(e);
             }
         }
     }
 
-    public Position2D getPositionForShip() throws Exception {
+    public Position2D getPositionForShip() throws InGameException {
         printAskShipPosition(playerBoard.getNextShipLength());
         return InputHandler.getPosition();
     }
 
-    public Position2D getPositionForGuess() throws Exception {
+    public Position2D getPositionForGuess() throws InGameException {
         printAskGuessPosition();
         return InputHandler.getPosition();
     }
 
-    public boolean getRotationForShip() throws Exception {
+    public boolean getRotationForShip() throws InGameException {
         printAskShipRotation();
         return InputHandler.getRotation();
     }

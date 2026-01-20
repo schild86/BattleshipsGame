@@ -1,6 +1,7 @@
 package BattleshipsModel.Board;
 
 import BattleshipsModel.Position.Position2D;
+import Validation.InGameException;
 import Validation.PositionValidator;
 
 public class Board {
@@ -23,7 +24,7 @@ public class Board {
         }
     }
 
-    public void addShip(Position2D position, boolean rotation) throws Exception {
+    public void addShip(Position2D position, boolean rotation) throws InGameException {
         if (PositionValidator.checkValidPosition(position)){
             battleships.addShip(position,rotation, this);}
     }
