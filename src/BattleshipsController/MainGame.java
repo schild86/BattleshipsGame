@@ -1,15 +1,19 @@
 package BattleshipsController;
 
+import Validation.InGameException;
 import Validation.PositionValidator;
 
 import static BattleshipsTerminalView.OutputHandler.*;
 
 public class MainGame {
+    private final int defaultSize = 10;
 
     private void game2Player(){
         //this boolean variable indicates which players go it is
         //false = player 1 and true = player 2
         boolean currentPlayer = false;
+        /*this call asks the user to choose whether they want the default board size
+        If not then asks them to enter a size*/
         int size = getGameBoardSize();
         PositionValidator p = new PositionValidator(size);
         Player player1 = new Player(currentPlayer,size);
@@ -37,9 +41,9 @@ public class MainGame {
 
     private int getGameBoardSize(){
         printIfDefaultBoardSize();
-        boolean defaultSize= getYNAnswer();
+        boolean isDefaultSize= getYNAnswer();
 
-        if(defaultSize){return 10;}
+        if(isDefaultSize){return defaultSize;}
         else{printNewBoardSize();
             return getNumericAnswer();
         }
@@ -53,7 +57,7 @@ public class MainGame {
                 //getYN answer can throw exception (if invalid input attempted)
                 // so try catch block needed
                 return InputHandler.getYNAnswer();
-            } catch (Exception e) {
+            } catch (InGameException e) {
                 printException(e);
             }
         }
@@ -67,7 +71,7 @@ public class MainGame {
                 //getNumeric answer can throw exception (if invalid input attempted)
                 // so try catch block needed
                 return InputHandler.getNumericAnswer();
-            } catch (Exception e) {
+            } catch (InGameException e) {
                 printException(e);
             }
         }
@@ -75,7 +79,7 @@ public class MainGame {
 
 
     void main(){
-        //if the player chooses to start then a 2 player game is started
+        //If the player chooses to start then a 2 player game is started
         //(as a player vs computer is not yet implemented)
         while (checkStart()){game2Player();}
 

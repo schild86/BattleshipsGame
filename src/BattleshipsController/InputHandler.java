@@ -5,17 +5,19 @@ import Validation.*;
 
 import java.util.Scanner;
 
+import static Validation.GeneralValidation.isNumeric;
 import static Validation.PositionValidator.*;
 
 public class InputHandler {
     private static final Scanner scan = setScanner();
 
-    public static Scanner setScanner(){
-        try {
-            return new Scanner(System.in);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        }
+    //handles setting up the initial scanner of the terminal
+    private static Scanner setScanner(){
+            try {
+                return new Scanner(System.in);
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e);
+            }
     }
 
     public static String getNextLine(){
@@ -23,7 +25,7 @@ public class InputHandler {
         return "";
     }
 
-    public static Position2D getPosition() throws Exception {
+    public static Position2D getPosition() throws InGameException {
         String nL = getNextLine();
         Position2D pos = null;
         if (nL.length() >=2 && isNumeric(nL.substring(1))){
@@ -35,7 +37,7 @@ public class InputHandler {
         throw new InvalidPosition2D();
     }
 
-    public static boolean getRotation() throws Exception {
+    public static boolean getRotation() throws InGameException {
         String nL = getNextLine();
         if (nL.length() ==1){
             if (nL.equalsIgnoreCase("H")){return false;}
@@ -45,7 +47,7 @@ public class InputHandler {
         throw new InvalidDirection();
     }
 
-    public static boolean getYNAnswer() throws Exception{
+    public static boolean getYNAnswer() throws InGameException {
         String nL = getNextLine();
         if (nL.length() ==1){
             if (nL.equalsIgnoreCase("N")){return false;}
@@ -57,7 +59,7 @@ public class InputHandler {
 
 
 
-    public static int getNumericAnswer() throws Exception{
+    public static int getNumericAnswer() throws InGameException {
         String nL = getNextLine();
         if (isNumeric(nL)){return Integer.parseInt(nL);}
 
