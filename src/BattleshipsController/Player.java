@@ -32,7 +32,7 @@ public class Player {
                 Position2D position = getPositionForShip();
                 boolean rotation = getRotationForShip();
                 playerBoard.addShip(position, rotation);
-            } catch (Exception e){
+            } catch (InGameException e){
                 printInGameException(e);}
             outputShipBoard();
         }
@@ -49,7 +49,7 @@ public class Player {
                 boolean rotation = false;
                 playerBoard.addShip(position, rotation);
                 i+=1;
-            } catch (Exception e){
+            } catch (InGameException e){
                 printInGameException(e);}
         }
         outputShipBoard();
