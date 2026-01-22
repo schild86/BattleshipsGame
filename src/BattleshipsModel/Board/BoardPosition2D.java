@@ -52,7 +52,7 @@ public class BoardPosition2D extends Position2D {
     }
 
     public boolean checkIfGuessed(){
-        return !status.equals("unselected");
+        return !status.equals(Status.UNSELECTED);
     }
 
 }
