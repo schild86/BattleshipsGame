@@ -18,13 +18,13 @@ public class PositionValidator {
         size=defaultSize;
     }
 
-    public static boolean checkValidPosition(Position2D point){
+    public boolean checkValidPosition(Position2D point) throws InvalidPosition2D {
         if (point!=null){
             int x = point.getX();
             int y = point.getY();
-            return y >= 1 && y <= size && x >= 1 && x <= size;
+            if(y >= 1 && y <= size && x >= 1 && x <= size){return true;}
         }
-        return false;
+        throw new InvalidPosition2D();
     }
 
 }

@@ -2,17 +2,20 @@ package BattleshipsModel.Board;
 
 import BattleshipsModel.Position.Position2D;
 import Validation.InGameException;
+import Validation.InvalidPosition2D;
 import Validation.PositionValidator;
 
 public class Board {
     private final int size;
     private BoardPosition2D[][] positions;
     private BattleshipsArray battleships;
+    private PositionValidator validator;
 
     public Board(int size){
         this.size=size;
         setUpBoard();
         battleships = new BattleshipsArray();
+        validator = new PositionValidator(size);
     }
 
     public void setUpBoard(){
@@ -25,7 +28,7 @@ public class Board {
     }
 
     public void addShip(Position2D position, boolean rotation) throws InGameException {
-        if (PositionValidator.checkValidPosition(position)){
+        if (validator.checkValidPosition(position)){
             battleships.addShip(position,rotation, this);}
     }
 
@@ -33,27 +36,30 @@ public class Board {
         return battleships.checkIfCanAddShip();
     }
 
-    public boolean checkIfHits(Position2D point){
-        if (PositionValidator.checkValidPosition(point)){
+    public boolean checkIfHits(Position2D point) throws InGameException{
+        if (validator.checkValidPosition(point)){
             return getBoardPosition2D(point).checkIfHit();
         }
         return false; //change later to throw error instead?
     }
 
-    public BoardPosition2D getBoardPosition2D(Position2D position){
-        return positions[position.getY()-1][position.getX()-1];
+    public BoardPosition2D getBoardPosition2D(Position2D position) throws InvalidPosition2D {
+        if(validator.checkValidPosition(position)) {
+            return positions[position.getY() - 1][position.getX() - 1];
+        }
+        return null;
     }
 
     public int getNextShipLength(){return battleships.getNextShipLength();}
 
-    public boolean checkIfPosHasShipPart(Position2D point){
-        if (PositionValidator.checkValidPosition(point)){
+    public boolean checkIfPosHasShipPart(Position2D point) throws InvalidPosition2D {
+        if (validator.checkValidPosition(point)){
             return getBoardPosition2D(point).checkIfHasPart();
         }
         return false;
     }
 
-    public void setShipPart(Position2D position, ShipPart part){
+    public void setShipPart(Position2D position, ShipPart part) throws InvalidPosition2D {
         getBoardPosition2D(position).setPart(part);
     }
 
@@ -63,7 +69,12 @@ public class Board {
         return positions;
     }
 
-    public boolean checkAlreadyGuessed(Position2D position){
-        return getBoardPosition2D(position).checkIfGuessed();
+    public boolean checkValidPosition(Position2D pos) throws InvalidPosition2D {
+        return validator.checkValidPosition(pos);
+    }
+
+    public boolean checkAlreadyGuessed(Position2D position) throws InvalidPosition2D {
+        if (validator.checkValidPosition(position)){return getBoardPosition2D(position).checkIfGuessed();}
+        return false;
     }
 }

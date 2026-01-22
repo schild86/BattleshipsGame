@@ -5,8 +5,8 @@ import Validation.*;
 
 import java.util.Scanner;
 
+import static Validation.GeneralValidation.isAlphabetic;
 import static Validation.GeneralValidation.isNumeric;
-import static Validation.PositionValidator.*;
 
 public class InputHandler {
     private static final Scanner scan = setScanner();
@@ -28,22 +28,17 @@ public class InputHandler {
     }
 
     //gets a position that the user entered in the terminal
-    public static Position2D getPosition() throws InGameException {
+    public static Position2D getPosition() {
         String nL = getNextLine();
         Position2D pos = null;
+        nL = nL.strip();
         //Examples of valid inputs: A1, B12
         //Have a letter followed by a series of numeric characters
-        if (nL.length() >=2 && isNumeric(nL.substring(1))){
+        if (nL.length() >=2 && isAlphabetic(nL.charAt(0)) && isNumeric(nL.substring(1))){
             //might need to add another check to see if first char is a letter
-            pos = new Position2D(nL.charAt(0), Integer.parseInt(nL.substring(1)));
+            pos = new Position2D(Character.toUpperCase(nL.charAt(0)), Integer.parseInt(nL.substring(1)));
         }
-        //Even if is a valid input, may not be a valid position if not on board grid
-        if (checkValidPosition(pos)){
-            return pos;
-        }
-        //is there a better way of doing this?
-        //should this be in the PositionValidator class?
-        throw new InvalidPosition2D();
+        return pos;
     }
 
     /*gets a rotation that the user entered in the terminal

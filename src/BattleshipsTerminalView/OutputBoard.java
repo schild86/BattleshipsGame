@@ -39,13 +39,13 @@ public class OutputBoard {
         makeRowHeader(bs,maxY,outputLine);
         for (BoardPosition2D b: bs){
             switch(b.getStatus()){
-                case "unselected":
+                case "UNSELECTED":
                     outputLine.append(" . ");
                     break;
-                case "missed":
+                case "MISSED":
                     outputLine.append(" o ");
                     break;
-                case "hit":
+                case "HIT":
                     outputLine.append(" x ");
                     break;
             }

@@ -30,6 +30,7 @@ public class Player {
         while(playerBoard.checkIfCanAddShip()){
             try{
                 Position2D position = getPositionForShip();
+                playerBoard.checkValidPosition(position);
                 boolean rotation = getRotationForShip();
                 playerBoard.addShip(position, rotation);
             } catch (InGameException e){

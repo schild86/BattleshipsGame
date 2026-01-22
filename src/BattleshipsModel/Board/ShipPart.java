@@ -3,8 +3,8 @@ package BattleshipsModel.Board;
 import BattleshipsModel.Position.Position2D;
 import Validation.InGameException;
 import Validation.InvalidShipPlacement;
+import Validation.PositionValidator;
 
-import static Validation.PositionValidator.checkValidPosition;
 
 //separate class from position as position doesn't require hit attribute
 public class ShipPart {
@@ -12,7 +12,7 @@ public class ShipPart {
     private Position2D position;
     private final Battleship ship;
 
-    public ShipPart(Position2D position, Battleship ship, Board board) throws InGameException {
+    public ShipPart(Position2D position, Battleship ship, Board board,PositionValidator validator) throws InGameException {
         this.ship = ship;
         this.hit = false;
         checkIfValidShipPart(position,board);
@@ -26,7 +26,7 @@ public class ShipPart {
     }
 
     private void checkIfValidShipPart(Position2D pos, Board board) throws InGameException {
-        if(checkValidPosition(pos)&& !board.checkIfPosHasShipPart(pos)){
+        if(board.checkValidPosition(pos)&& !board.checkIfPosHasShipPart(pos)){
             this.position = pos;
             board.setShipPart(position, this);
         }else{throw new InvalidShipPlacement();}
